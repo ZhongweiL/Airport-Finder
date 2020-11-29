@@ -5,6 +5,10 @@
     z-index: -1;
 }
 
+.airport:hover {
+    cursor: pointer;
+}
+
 .infoBox {
     font-family: sans-serif;
     background-color: white;
