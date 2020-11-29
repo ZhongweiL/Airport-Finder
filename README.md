@@ -6,6 +6,7 @@ Access https://airport-finder.netlify.app/
 
 # Running locally
 npm install
+
 npm start
 
 # App Screenshot
