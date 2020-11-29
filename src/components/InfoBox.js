@@ -42,10 +42,10 @@ function InfoBox({ iata, lat, lng, onClick }) {
                         day,
                         hour
                     ] = weatherInfo.location.localtime.split(/-| |:/, 4);
-                    const scheduleArrUrl = `https://cors-anywhere.herokuapp.com/https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/arr/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
+                    const scheduleArrUrl = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/arr/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
                     const scheduleArriveRes = await fetch(scheduleArrUrl);
                     const scheduleArriveInfo = await scheduleArriveRes.json();
-                    const scheduleDepUrl = `https://cors-anywhere.herokuapp.com/https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/dep/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
+                    const scheduleDepUrl = `https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/dep/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
                     const scheduleDepartureRes = await fetch(scheduleDepUrl);
                     const scheduleDepartureInfo = await scheduleDepartureRes.json();
                     setTime(weatherInfo.location.localtime);
