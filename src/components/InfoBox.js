@@ -29,25 +29,15 @@ function InfoBox({ iata, lat, lng, onClick }) {
         function () {
             async function getInfo() {
                 try {
+                    //basic info
                     setLoading(true);
+                    setOnScheduleTab(false);
                     const airportUrl = `https://airports-api.s3-us-west-2.amazonaws.com/iata/${iata.toLowerCase()}.json`;
                     const airportRes = await fetch(airportUrl);
                     const airportInfo = await airportRes.json();
                     const weatherUrl = `https://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${lat},${lng}`;
                     const weatherRes = await fetch(weatherUrl);
                     const weatherInfo = await weatherRes.json();
-                    const [
-                        year,
-                        month,
-                        day,
-                        hour
-                    ] = weatherInfo.location.localtime.split(/-| |:/, 4);
-                    const scheduleArrUrl = `https://cors-anywhere.herokuapp.com/https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/arr/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
-                    const scheduleArriveRes = await fetch(scheduleArrUrl);
-                    const scheduleArriveInfo = await scheduleArriveRes.json();
-                    const scheduleDepUrl = `https://cors-anywhere.herokuapp.com/https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/dep/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
-                    const scheduleDepartureRes = await fetch(scheduleDepUrl);
-                    const scheduleDepartureInfo = await scheduleDepartureRes.json();
                     setTime(weatherInfo.location.localtime);
                     setAirportName(airportInfo.airport_name);
                     setCityName(airportInfo.city);
@@ -62,11 +52,24 @@ function InfoBox({ iata, lat, lng, onClick }) {
                         weatherInfo.current.weather_descriptions[0]
                     );
                     setWindSpeed(weatherInfo.current.wind_speed);
+                    setLoading(false);
+                    //schedule data
+                    const [
+                        year,
+                        month,
+                        day,
+                        hour
+                    ] = weatherInfo.location.localtime.split(/-| |:/, 4);
+                    const scheduleArrUrl = `https://cors-anywhere.herokuapp.com/https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/arr/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
+                    const scheduleArriveRes = await fetch(scheduleArrUrl);
+                    const scheduleArriveInfo = await scheduleArriveRes.json();
+                    const scheduleDepUrl = `https://cors-anywhere.herokuapp.com/https://api.flightstats.com/flex/flightstatus/rest/v2/json/airport/status/${iata}/dep/${year}/${month}/${day}/${hour}?appId=${scheduleAppId}&appKey=+${scheduleApikey}&numHours=1&maxFlights=5`;
+                    const scheduleDepartureRes = await fetch(scheduleDepUrl);
+                    const scheduleDepartureInfo = await scheduleDepartureRes.json();
                     setArrvingFlights([...scheduleArriveInfo.flightStatuses]);
                     setDepartingFlights([
                         ...scheduleDepartureInfo.flightStatuses
                     ]);
-                    setLoading(false);
                 } catch (e) {
                     console.log(e);
                 }
