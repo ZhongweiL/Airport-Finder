@@ -30,10 +30,10 @@ function InfoBox({ iata, lat, lng, onClick }) {
             async function getInfo() {
                 try {
                     setLoading(true);
-                    const airportUrl = `http://airports-api.s3-us-west-2.amazonaws.com/iata/${iata.toLowerCase()}.json`;
+                    const airportUrl = `https://airports-api.s3-us-west-2.amazonaws.com/iata/${iata.toLowerCase()}.json`;
                     const airportRes = await fetch(airportUrl);
                     const airportInfo = await airportRes.json();
-                    const weatherUrl = `http://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${lat},${lng}`;
+                    const weatherUrl = `https://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${lat},${lng}`;
                     const weatherRes = await fetch(weatherUrl);
                     const weatherInfo = await weatherRes.json();
                     const [
