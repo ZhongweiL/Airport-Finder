@@ -7,6 +7,14 @@ function BasicInfo(props) {
     return (
         <List>
             <ListItem className="item">
+                <div>IATA Code: {props.iata}</div>
+            </ListItem>
+            <Divider />
+            <ListItem className="item">
+                <div>ICAO Code: {props.icao}</div>
+            </ListItem>
+            <Divider />
+            <ListItem className="item">
                 <div>City: {props.cityName}</div>
             </ListItem>
             <Divider />
