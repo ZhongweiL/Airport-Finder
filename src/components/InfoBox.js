@@ -24,10 +24,10 @@ function InfoBox({ iata, lat, lng, onClick }) {
                 try {
                     //basic info
                     setLoading(true);
-                    const airportUrl = `https://airports-api.s3-us-west-2.amazonaws.com/iata/${iata.toLowerCase()}.json`;
+                    const airportUrl = `http://airports-api.s3-us-west-2.amazonaws.com/iata/${iata.toLowerCase()}.json`;
                     const airportRes = await fetch(airportUrl);
                     const airportInfo = await airportRes.json();
-                    const weatherUrl = `https://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${lat},${lng}`;
+                    const weatherUrl = `http://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${lat},${lng}`;
                     const weatherRes = await fetch(weatherUrl);
                     const weatherInfo = await weatherRes.json();
                     setTime(weatherInfo.location.localtime);
