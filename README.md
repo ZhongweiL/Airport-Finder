@@ -10,6 +10,6 @@ npm install
 npm start
 
 # App Screenshot
-![screen shot](https://user-images.githubusercontent.com/43942535/100533241-20e88500-31d0-11eb-9215-6cb72a4321a2.jpg)
+![1609729622](https://user-images.githubusercontent.com/43942535/103497601-0e391f80-4e10-11eb-8a46-c861930ac9c9.jpg)
 
 
