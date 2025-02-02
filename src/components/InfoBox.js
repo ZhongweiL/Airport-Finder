@@ -7,6 +7,7 @@ import "../index.css";
 
 function InfoBox({ iata, lat, lng, onClick }) {
     const weatherApiKey = process.env.REACT_APP_WEATHER_KEY;
+    const infoApiKey = process.env.REACT_APP_INFO_KEY;
     const [airportName, setAirportName] = useState("");
     const [cityName, setCityName] = useState("");
     const [ICAO, setICAO] = useState("");
@@ -24,17 +25,22 @@ function InfoBox({ iata, lat, lng, onClick }) {
                 try {
                     //basic info
                     setLoading(true);
-                    const airportUrl = `https://airports-api.s3-us-west-2.amazonaws.com/iata/${iata.toLowerCase()}.json`;
-                    const airportRes = await fetch(airportUrl);
+                    const infoUrl = `https://api.api-ninjas.com/v1/airports?iata=${iata.toLowerCase()}`;
+                    const airportRes = await fetch(infoUrl, {
+                        method: 'GET',
+                        headers: {
+                          'X-Api-Key': infoApiKey
+                        }});
                     const airportInfo = await airportRes.json();
+                    const curAirportinfo = airportInfo[0];
                     const weatherUrl = `https://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${lat},${lng}`;
                     const weatherRes = await fetch(weatherUrl);
                     const weatherInfo = await weatherRes.json();
                     setTime(weatherInfo.location.localtime);
-                    setICAO(airportInfo.icao);
-                    setAirportName(airportInfo.airport_name);
-                    setCityName(airportInfo.city);
-                    setElevation(airportInfo.elevation);
+                    setICAO(curAirportinfo.icao);
+                    setAirportName(curAirportinfo.name);
+                    setCityName(curAirportinfo.city);
+                    setElevation(curAirportinfo.elevation_ft);
                     setTemperatureCelsius(weatherInfo.current.temperature);
                     setTemperatureFahrenheit(
                         Math.round(
@@ -52,7 +58,7 @@ function InfoBox({ iata, lat, lng, onClick }) {
             }
             getInfo();
         },
-        [iata, lat, lng, weatherApiKey]
+        [iata, lat, lng, weatherApiKey, infoApiKey]
     );
     return (
         <Card className="infoBox">
